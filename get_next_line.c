@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yhamdan <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: yalrfai <yalrfai@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 00:59:00 by yhamdan           #+#    #+#             */
-/*   Updated: 2024/09/15 05:10:50 by yhamdan          ###   ########.fr       */
+/*   Updated: 2024/11/19 08:59:13 by yalrfai          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,27 +65,27 @@ char	*ft_line(char *buf)
 	return (line);
 }
 
-char	*readf(int fd, char *buf)
+char	*ft_read_line(int fd, char *buf)
 {
-	char	*bufch;
-	int		bread;
+	char	*read_file;
+	int		num_of_char;
 
-	bread = 1;
-	while (bread > 0 && !ft_strchr(buf))
+	num_of_char = 1;
+	while (num_of_char > 0 && !ft_strchr(buf))
 	{
-		bufch = ft_calloc(BUFFER_SIZE + 1, 1);
-		if (!bufch)
+		read_file = ft_calloc(BUFFER_SIZE + 1, 1);
+		if (!read_file)
 			return (NULL);
-		bread = read(fd, bufch, BUFFER_SIZE);
-		if (bread == -1 || (!buf && bread == 0))
+		num_of_char = read(fd, read_file, BUFFER_SIZE);
+		if (num_of_char == -1 || (!buf && num_of_char == 0))
 		{
-			free(bufch);
+			free(read_file);
 			return (NULL);
 		}
-		bufch[bread] = '\0';
-		buf = ft_strjoin(buf, bufch);
+		read_file[num_of_char] = '\0';
+		buf = ft_strjoin(buf, read_file);
 		if (!buf)
-			return (free(bufch),NULL);
+			return (free(read_file),NULL);
 	}
 	return (buf);
 }
@@ -98,7 +98,7 @@ char	*get_next_line(int fd)
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	tmp = readf(fd, buf);
+	tmp = ft_read_line(fd, buf);
 	if (!tmp)
 	{
 		if (buf)
